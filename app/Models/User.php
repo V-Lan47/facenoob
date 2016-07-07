@@ -60,11 +60,11 @@ class User extends Authenticatable
         ->wherePivot('accepted', true)->get());
         //Merging both possible records into one mutual friendship
     }
-    /*19*/
+
     public function friendsRequests(){
         return $this->friendOfMine()->wherePivot('accepted', false)->get();
     }
-    /*20*/
+  
     public function friendRequestsPending(){
         return $this->friendOf()->wherePivot('accepted', false)->get();
     }
