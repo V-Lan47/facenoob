@@ -1,0 +1,42 @@
+.navbar-default{
+	background: #3b5998;
+	color: white;
+}
+.navbar{
+    border: none;
+    border-radius: 0px;
+    width: 100%;
+}
+
+/*Logo*/
+.navbar-brand{
+	color: white;
+	font-weight: bold;
+}
+.navbar-default .navbar-brand:hover {
+    color: white;
+    background-color: transparent;
+}
+
+/*Top bar*/
+.navbar-default .navbar-nav>li>a {
+    color: white;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+    color: white;
+    /*background-color: #6d84b4-lighter; 36518b-darker; but lighter than 314a7e*/
+    background-color: #314a7e;
+}
+/*
+Comment area
+*/
+.form-control{
+    width: 300px;
+}
+/*
+Rest
+*/
+.navbar-default .navbar-brand {
+    color: white;
+}
