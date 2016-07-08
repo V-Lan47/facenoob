@@ -1,3 +1,6 @@
+body{
+    background-color: #f4f6f9;
+}
 .navbar-default{
 	background: #3b5998;
 	color: white;
@@ -32,7 +35,16 @@
 Comment area
 */
 .form-control{
-    width: 300px;
+    max-width: 350px;
+}
+/*
+Timeline
+*/
+.post{
+    margin-bottom: 10px;
+    padding: 15px;
+    background-color: white; /*#f4f6f9, a bit darker: e3e8f1*/
+    border-radius: 5px;
 }
 /*
 Rest

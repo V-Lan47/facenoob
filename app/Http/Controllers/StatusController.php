@@ -59,5 +59,29 @@ class StatusController extends Controller{
 		return redirect()->back();
 
 	}
+
+	public function getLike($statusId){
+
+		$status = Status::find($statusId);
+
+		if (!$status){
+			return redirect()->route('home');
+		}
+
+		if (!Auth::user()->isFriendsWith($status->user)){
+			return redirect()->back()
+				->with('info', 'You can`t like posts of people who are not your friends.');
+		}
+
+		if (Auth::user()->hasLikedStatus($status)){
+			return redirect()->back();
+		}
+
+		$like = $status->addLike()->create([]);
+		Auth::user()->addLike()->save($like);
+
+		return redirect()->back();
+
+	}
 }
 ?>

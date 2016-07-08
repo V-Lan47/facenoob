@@ -1,29 +1,30 @@
 @extends('templates.default')
 
 @section('content')
-	<div class="row">
-	    <div class="col-lg-6">
-	        <form role="form" action="{{  route('status.post')  }}" method="post">
-	            <div class="form-group{{  $errors->has('status') ? 'has-error' : ''  }}">
-	                <textarea placeholder="What's up {{  Auth::user()->getFirstNameOrUsername()  }}?" name="status" class="form-control" rows="2"></textarea>
-	                @if($errors->has('status'))
-	                	<span class="help-block">{{  $errors->first()  }}</span>
-	                @endif
-	            </div>
-	            <button type="submit" class="btn btn-default">Update status</button>
-	            <input type="hidden" name="_token" value="{{  Session::token()  }}">
-	        </form>
-	        <hr>
-	    </div>
-	</div>
+<div class="row">
+    <div class="col-lg-6">
+        <form role="form" action="{{  route('status.post')  }}" method="post">
+            <div class="form-group{{  $errors->has('status') ? 'has-error' : ''  }}">
+                <textarea placeholder="What's up {{  Auth::user()->getFirstNameOrUsername()  }}?" name="status" class="form-control" rows="3"></textarea>
+                @if($errors->has('status'))
+                	<span class="help-block">{{  $errors->first()  }}</span>
+                @endif
+            </div>
+            <button type="submit" class="btn btn-default">Update status</button>
+            <input type="hidden" name="_token" value="{{  Session::token()  }}">
+        </form>
+        <hr>
+    </div>
+</div>
 
-	<div class="row">
-	    <div class="col-lg-5">
-	        @if (!$statuses->count())
-	        	<p>There's absolutely nothing on your timeline. Go fix that, now.</p>
-	        @else
-	        	@foreach ($statuses as $status)	
-	        		<!--Posts-->
+<div class="row">
+    <div class="col-lg-5">
+        @if (!$statuses->count())
+        	<p>There's absolutely nothing on your timeline. Go fix that, now.</p>
+        @else
+        	@foreach ($statuses as $status)	
+        		<!--Posts-->
+        		<div class="post">
 					<div class="media">
 					    <a class="pull-left" 
 					    href="{{ route('profile.index', ['username' => $status->user->username])}}">
@@ -39,8 +40,10 @@
 					        <p> {{ $status->status }}</p>
 					        <ul class="list-inline">
 					            <li>{{ $status->created_at->diffForHumans() }}</li>
-					            <li><a href="#">Like</a></li>
-					            <li>10 likes</li>
+					            @if ($status->user->id !== Auth::user()->id)
+						            <li><a href="{{ route('status.like', ['statusId' => $status->id]) }}">Like</a></li>
+						        @endif
+						            <li>{{ $status->addLike->count() }} {{ str_plural('like', $status->addLike->count())}}</li> 
 					        </ul>
 						       <!--Comments-->
 						       @foreach ($status->comments as $comment)
@@ -58,13 +61,15 @@
 							                <p>{{ $comment->status }}</p>
 							                <ul class="list-inline">
 							                    <li>{{ $comment->created_at->diffForHumans() }}</li>
-							                    <li><a href="#">Like</a></li>
-							                    <li><a href="#">Hate</a></li>
-							                    <li>4 likes</li>
+							                    @if ($comment->user->id !== Auth::user()->id)
+								                    <li><a href="{{ route('status.like', ['statusId' => $comment->id]) }}">Like</a></li>
+								                @endif
+								                    <li>{{ $comment->addLike->count() }} {{ str_plural('like', $comment->addLike->count())}}</li>
 							                </ul>
 							            </div>
 							        </div>
 								@endforeach
+
 					        <form role="form" 
 					        action="{{ route('status.comment', ['statusId' => $status->id]) }}" method="post">
 					            <div class="form-group{{ $errors->has("reply-{$status->id}") ? ' has-error' : '' }}">
@@ -80,9 +85,10 @@
 					        </form>
 					    </div>
 					</div>
-	        	@endforeach
-	        	{!! $statuses->render() !!}
-	        @endif
-	    </div>
-	</div>
+				</div>
+        	@endforeach
+        	{!! $statuses->render() !!}
+        @endif
+    </div>
+</div>
 @stop

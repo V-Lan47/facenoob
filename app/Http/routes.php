@@ -116,3 +116,11 @@ Route::post('/status/{statusId}/comment',[
 	'as' => 'status.comment',
 	'middleware' => ['auth'],
 ]);
+/*
+Likes
+*/
+Route::get('/status/{statusId}/like', [
+	'uses' => '\Facenoob\Http\Controllers\StatusController@getLike',
+	'as' => 'status.like',
+	'middleware' => ['auth'],
+]);

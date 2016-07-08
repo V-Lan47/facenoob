@@ -20,6 +20,11 @@ class Status extends Model{
 	public function comments(){
 		return $this->hasMany('Facenoob\Models\Status', 'parent_id');
 	}
+
+
+	public function addLike(){
+		return $this->morphMany('Facenoob\Models\Like', 'like');/*'likes'*/
+	}
 }
 
 

@@ -16,7 +16,7 @@
         @if($user->email)
             E-mail: {{ $user->email }}<br />
         @endif   
-            Works as Student at Masaryk University</p>
+            Works as Student at Masaryk University, Brno</p>
 
     </div>
 </div>

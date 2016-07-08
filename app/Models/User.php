@@ -2,6 +2,7 @@
 
 namespace Facenoob\Models;
 
+use Facenoob\Models\Status;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -95,7 +96,21 @@ class User extends Authenticatable
     public function statuses(){
         return $this->hasMany('Facenoob\Models\Status', 'user_id');
     }
+    /*
+    Likes
+    Can't like own statuses, people's with who we're not friends with.
+    */
+    public function hasLikedStatus(Status $status){
+        return (bool) $status->addLike
+            ->where('like_id', $status->id)
+            ->where('like_type', get_class($status))
+            ->where('user_id', $this->id)
+            ->count();
+    }
 
+    public function addLike(){
+        return $this->hasMany('Facenoob\Models\Like', 'user_id');
+    }
     
     /**
      * Attributes that should be hidden for arrays.
