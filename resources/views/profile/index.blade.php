@@ -93,6 +93,8 @@
 		    		<p>You and {{  $user->getNameOrUsername()  }} are friends.</p>
 		    	@elseif(Auth::user()->id !== $user->id)
 		    		<a href="{{  route('friends.add', ['username' =>$user->username])  }}" class="btn btn-primary">Send friendship request</a>
+				@elseif(Auth::user()->id === $user->id)
+		    		<a href="{{ route('profile.edit') }}" class="btn btn-primary">Update profile</a>
 		    	@endif
 		        <h4>{{ $user->getFirstNameOrUsername()  }}'s friends.</h4>
 
